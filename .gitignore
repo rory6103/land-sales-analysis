@@ -128,6 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# data files
-*.dta
+# large data files
 *.csv
