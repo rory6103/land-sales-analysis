@@ -1,6 +1,9 @@
 from collections import defaultdict
 import pandas as pd
 
+### Requires Data_City_1994_2017.dta, land.csv, and city.csv in the same folder
+### Generates land_city.csv in the same folder
+
 LABEL_PATH = './Data_City_1994_2017.dta'
 DATA_PATH = './land.csv'
 CITYID_PATH = './city.csv'
