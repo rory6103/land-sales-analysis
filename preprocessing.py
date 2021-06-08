@@ -7,6 +7,7 @@ import pandas as pd
 LABEL_PATH = './Data_City_1994_2017.dta'
 DATA_PATH = './land.csv'
 CITYID_PATH = './city.csv'
+SAVE_PATH = 'land_city.csv'
 DESIRED_VARS = ['forway', 'deal_price_millon', 'land_source', 'approval_unit', 'contract_date', 
                 'company_industry', 'landlevel', 'region', 'area_ha', 'landuse']
 LAND_SOURCE_MAP = {'现有建设用地':'existing', '新增建设用地(来自存量库)':'stock', '新增建设用地':'new'}
@@ -108,6 +109,6 @@ if __name__ == "__main__":
     city_years = [str(city_ids[c])+years[i] for (i, c) in enumerate(list(unprocessed_data['cityID']))]
     unprocessed_data.insert(4, 'city_year', city_years)
     # Sort the data by the 'city_year' column
-    unprocessed_data.sort_values("city_year", inplace=True)
-    # Save the processed data
-    unprocessed_data.to_csv('land_city.csv', index=False)
+    unprocessed_data.sort_values('city_year', inplace=True)
+    # Save the processed data to local folder
+    unprocessed_data.to_csv(SAVE_PATH, index=False)
