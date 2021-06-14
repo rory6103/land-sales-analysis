@@ -3,7 +3,7 @@ import pandas as pd
 
 CITYID_PATH = './city.csv'
 LAND_CITY = './land_city.csv'
-SAVE_PATH = 'land_city.csv'
+SAVE_PATH = 'aggregated.csv'
 
 def aggregate(dataframe, col='total', types=[]):
     city_year_unique = list(dataframe.index.unique())
@@ -17,19 +17,24 @@ def aggregate(dataframe, col='total', types=[]):
         for i, cyear in enumerate(city_year_unique):
             # Extracting multiple rows with same index using loc
             df_temp = dataframe.loc[cyear]
-            # TODO: change to len(df_temp)
-            arr[i][0] = len(dataframe['cityID'][cyear])
-            prices = np.array(df_temp['deal_price_million'])
-            arr[i][1] = np.sum(prices)
-            areas = np.array(df_temp['area_ha'])
-            arr[i][2] = np.sum(areas)
+            if len(df_temp.shape) == 1:
+                arr[i][0] = 1
+                arr[i][1] = df_temp['deal_price_million']
+                arr[i][2] = df_temp['area_ha']
+            elif len(df_temp.shape) == 2:
+                arr[i][0] = len(df_temp)
+                prices = np.array(df_temp['deal_price_million'])
+                arr[i][1] = np.sum(prices)
+                areas = np.array(df_temp['area_ha'])
+                arr[i][2] = np.sum(areas)
+            else:
+                print("unexpected")
     else:
         for i, cyear in enumerate(city_year_unique):
             # Extracting multiple rows with same index using loc
             df_temp = dataframe.loc[cyear]
             for j, type in enumerate(types):
-                # print(type, cyear)
-                if len(df_temp.shape) == 1:
+                if len(df_temp.shape) == 1 and df_temp[col]==type:
                     arr[i][j*3] = 1
                     arr[i][j*3+1] = df_temp['deal_price_million']
                     arr[i][j*3+2] = df_temp['area_ha']
@@ -40,8 +45,6 @@ def aggregate(dataframe, col='total', types=[]):
                     arr[i][j*3+1] = np.sum(prices)
                     areas = np.array(type_df['area_ha'])
                     arr[i][j*3+2] = np.sum(areas)
-                else:
-                    print("Unexpected")
     columns = []
     for type in types:
         columns.append(type+"_n")
