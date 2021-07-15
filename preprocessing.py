@@ -11,8 +11,8 @@ SAVE_PATH = 'land_city.csv'
 DESIRED_VARS = ['forway', 'deal_price_millon', 'land_source', 'approval_unit', 'contract_date', 
                 'company_industry', 'landlevel', 'region', 'area_ha', 'landuse']
 LAND_SOURCE_MAP = {'现有建设用地':'existing', '新增建设用地(来自存量库)':'stock', '新增建设用地':'new'}
-FORWAY_MAP = defaultdict(lambda:'其他', key='其他')
-FORWAY_MAP.update({'挂牌出让':'招拍挂', '拍卖出让':'招拍挂', '招标出让':'招拍挂', '招拍挂出让':'招拍挂', '划拨':'划拨', '协议出让':'协议出让', '租赁':'租赁'})
+FORWAY_MAP = defaultdict(lambda:'other', key='other')
+FORWAY_MAP.update({'挂牌出让':'auction', '拍卖出让':'auction', '招标出让':'auction', '招拍挂出让':'auction', '划拨':'transfer', '协议出让':'agreement', '租赁':'lease'})
 
 def extract_city(str):
     """ Remove the suffix '市','盟','地区', or '自治州' (if any) 
