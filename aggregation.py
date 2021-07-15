@@ -62,19 +62,26 @@ def aggregate(dataframe, col=['total'], types=[]):
                     arr[i][j*3+1] = df_temp['deal_price_million']
                     arr[i][j*3+2] = df_temp['area_ha']
                 elif len(df_temp.shape) == 2:
-                    criteria = [df_temp[column]==type for column in col]
-                    type_df = df_temp[*criteria]
-                    # arr[i][j*3] = len(type_df)
-                    # prices = np.array(type_df['deal_price_million'])
-                    # arr[i][j*3+1] = np.sum(prices)
-                    # areas = np.array(type_df['area_ha'])
-                    # arr[i][j*3+2] = np.sum(areas)
+                    # criteria = [df_temp[column] in type for column in col]
+                    # type_df = df_temp[*criteria]
+                    q = ""
+                    for k, subtype in enumerate(type):
+                        q += (col[k]+" == "+"\""+subtype+"\""+" ") if (q == "") else ("and "+col[k]+" == "+"\""+subtype+"\""+" ")
+                    #print(q)
+                    type_df = df_temp.query(q)
+                    arr[i][j*3] = len(type_df)
+                    prices = np.array(type_df['deal_price_million'])
+                    arr[i][j*3+1] = np.sum(prices)
+                    areas = np.array(type_df['area_ha'])
+                    arr[i][j*3+2] = np.sum(areas)
+
+
 
     columns = []
     for type in types:
-        columns.append(type+"_n")
-        columns.append(type+"_p")
-        columns.append(type+"_a")
+        columns.append('_'.join(type)+"_n")
+        columns.append('_'.join(type)+"_p")
+        columns.append('_'.join(type)+"_a")
     res = pd.DataFrame(arr, index=city_year_unique, columns=columns)
     return res        
 
