@@ -18,7 +18,9 @@ def aggregate(dataframe, col=['total'], types=[]):
             types = [list(ele) for ele in it.product(*lotypes)]
             print(types)
 
-    arr = np.zeros((len(city_year_unique), 3*len(types))) if len(col) == 1 else np.zeros((len(city_year_unique), 3*np.prod([len(type) for type in types])))
+    arr = np.zeros((len(city_year_unique), 3*len(types))) if len(col) == 1 else np.zeros((len(city_year_unique), 3*len(types)))
+    print(arr.shape)
+
     if col==['total']:
         for i, cyear in enumerate(city_year_unique):
             # Extracting multiple rows with same index using loc
@@ -62,8 +64,6 @@ def aggregate(dataframe, col=['total'], types=[]):
                     arr[i][j*3+1] = df_temp['deal_price_million']
                     arr[i][j*3+2] = df_temp['area_ha']
                 elif len(df_temp.shape) == 2:
-                    # criteria = [df_temp[column] in type for column in col]
-                    # type_df = df_temp[*criteria]
                     q = ""
                     for k, subtype in enumerate(type):
                         q += (col[k]+" == "+"\""+subtype+"\""+" ") if (q == "") else ("and "+col[k]+" == "+"\""+subtype+"\""+" ")
@@ -103,6 +103,5 @@ total_temp.insert(0, "cityID", cities)
 
 forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
 frames = [total_temp, forway_land_source_temp]
-
-# result = pd.concat(frames, axis=1, join="inner")
-# result.to_csv(SAVE_PATH)
+result = pd.concat(frames, axis=1, join="inner")
+result.to_csv(SAVE_PATH)
