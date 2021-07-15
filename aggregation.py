@@ -74,9 +74,6 @@ def aggregate(dataframe, col=['total'], types=[]):
                     arr[i][j*3+1] = np.sum(prices)
                     areas = np.array(type_df['area_ha'])
                     arr[i][j*3+2] = np.sum(areas)
-
-
-
     columns = []
     for type in types:
         columns.append('_'.join(type)+"_n")
@@ -105,6 +102,7 @@ total_temp.insert(0, "cityID", cities)
 # frames = [total_temp, forway_temp, land_source_temp]
 
 forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
+frames = [total_temp, forway_land_source_temp]
 
 # result = pd.concat(frames, axis=1, join="inner")
 # result.to_csv(SAVE_PATH)
