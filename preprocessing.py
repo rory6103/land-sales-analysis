@@ -5,7 +5,7 @@ import pandas as pd
 ### Generates land_city.csv in the same folder
 
 LABEL_PATH = './Data_City_1994_2017.dta'
-DATA_PATH = './land.csv'
+DATA_PATH = '../land.csv'
 CITYID_PATH = './city.csv'
 SAVE_PATH = 'land_city.csv'
 DESIRED_VARS = ['forway', 'deal_price_millon', 'land_source', 'approval_unit', 'contract_date', 
