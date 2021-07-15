@@ -57,17 +57,19 @@ def aggregate(dataframe, col=['total'], types=[]):
             # Extracting multiple rows with same index using loc
             df_temp = dataframe.loc[cyear]
             for j, type in enumerate(types):
-                if len(df_temp.shape) == 1 and df_temp[col]==type:
+                if len(df_temp.shape) == 1 and sum([df_temp[column] in type for column in col]) == len(col):
                     arr[i][j*3] = 1
                     arr[i][j*3+1] = df_temp['deal_price_million']
                     arr[i][j*3+2] = df_temp['area_ha']
                 elif len(df_temp.shape) == 2:
-                    type_df = df_temp[df_temp[col]==type]
-                    arr[i][j*3] = len(type_df)
-                    prices = np.array(type_df['deal_price_million'])
-                    arr[i][j*3+1] = np.sum(prices)
-                    areas = np.array(type_df['area_ha'])
-                    arr[i][j*3+2] = np.sum(areas)
+                    criteria = [df_temp[column]==type for column in col]
+                    type_df = df_temp[*criteria]
+                    # arr[i][j*3] = len(type_df)
+                    # prices = np.array(type_df['deal_price_million'])
+                    # arr[i][j*3+1] = np.sum(prices)
+                    # areas = np.array(type_df['area_ha'])
+                    # arr[i][j*3+2] = np.sum(areas)
+
     columns = []
     for type in types:
         columns.append(type+"_n")
