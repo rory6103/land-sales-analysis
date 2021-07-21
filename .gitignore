@@ -127,6 +127,7 @@ dmypy.json
 
 # settings
 settings.json
+workspace.code-workspace
 
 # Pyre type checker
 .pyre/
