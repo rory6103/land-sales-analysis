@@ -100,8 +100,13 @@ total_temp.insert(0, "cityID", cities)
 # forway_temp = aggregate(df, col=['forway'])
 # land_source_temp = aggregate(df, col=['land_source'])
 # frames = [total_temp, forway_temp, land_source_temp]
+# result = pd.concat(frames, axis=1, join="inner")
 
-forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
-frames = [total_temp, forway_land_source_temp]
-result = pd.concat(frames, axis=1, join="inner")
-result.to_csv(SAVE_PATH)
+### forway and land source aggregated 
+# forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
+# frames = [total_temp, forway_land_source_temp]
+# result = pd.concat(frames, axis=1, join="inner")
+# result.to_csv(SAVE_PATH)
+
+forway_sector_temp = aggregate(df, col=['sector', 'forway'])
+land_source_sector_temp = aggregate(df, col=['sector', 'land_source'])
