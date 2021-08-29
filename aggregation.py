@@ -76,9 +76,14 @@ def aggregate(dataframe, col=['total'], types=[]):
                     arr[i][j*3+2] = np.sum(areas)
     columns = []
     for type in types:
-        columns.append('_'.join(type)+"_n")
-        columns.append('_'.join(type)+"_p")
-        columns.append('_'.join(type)+"_a")
+        if not isinstance(type, str):
+            columns.append('_'.join(type)+"_n")
+            columns.append('_'.join(type)+"_p")
+            columns.append('_'.join(type)+"_a")
+        else:
+            columns.append(type+"_n")
+            columns.append(type+"_p")
+            columns.append(type+"_a")
     res = pd.DataFrame(arr, index=city_year_unique, columns=columns)
     return res        
 
@@ -97,10 +102,13 @@ cities = [city_ids[city_year//100] for city_year in total_temp.index]
 total_temp.insert(0, "cityID", cities)
 
 ### individual forway and land source
-# forway_temp = aggregate(df, col=['forway'])
-# land_source_temp = aggregate(df, col=['land_source'])
-# frames = [total_temp, forway_temp, land_source_temp]
-# result = pd.concat(frames, axis=1, join="inner")
+forway_temp = aggregate(df, col=['forway'])
+forway_temp.rename(columns={"other_n":"other_forway_n","other_p":"other_forway_p","other_a":"other_forway_a"}, inplace=True)
+land_source_temp = aggregate(df, col=['land_source'])
+sector_temp = aggregate(df, col=['sector'])
+sector_temp.rename(columns={"other_n":"other_sector_n","other_p":"other_sector_p","other_a":"other_sector_a"}, inplace=True)
+frames = [forway_temp, land_source_temp, sector_temp]
+result = pd.concat(frames, axis=1, join="inner")
 
 ### forway and land source aggregated 
 # forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
@@ -108,5 +116,5 @@ total_temp.insert(0, "cityID", cities)
 # result = pd.concat(frames, axis=1, join="inner")
 # result.to_csv(SAVE_PATH)
 
-forway_sector_temp = aggregate(df, col=['sector', 'forway'])
-land_source_sector_temp = aggregate(df, col=['sector', 'land_source'])
+# forway_sector_temp = aggregate(df, col=['sector', 'forway'])
+# land_source_sector_temp = aggregate(df, col=['sector', 'land_source'])
