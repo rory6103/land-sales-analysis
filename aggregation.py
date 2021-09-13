@@ -3,8 +3,8 @@ import pandas as pd
 import itertools as it
 
 CITYID_PATH = './city.csv'
-LAND_CITY = './land_city.csv'
-SAVE_PATH = 'aggregated.csv'
+LAND_CITY = './land_city_new.csv'
+SAVE_PATH = 'aggregated_new.csv'
 
 def aggregate(dataframe, col=['total'], types=[]):
     city_year_unique = list(dataframe.index.unique())
@@ -103,18 +103,18 @@ total_temp.insert(0, "cityID", cities)
 
 ### individual forway and land source
 forway_temp = aggregate(df, col=['forway'])
-forway_temp.rename(columns={"other_n":"other_forway_n","other_p":"other_forway_p","other_a":"other_forway_a"}, inplace=True)
+# forway_temp.rename(columns={"other_n":"other_forway_n","other_p":"other_forway_p","other_a":"other_forway_a"}, inplace=True)
 land_source_temp = aggregate(df, col=['land_source'])
 sector_temp = aggregate(df, col=['sector'])
-sector_temp.rename(columns={"other_n":"other_sector_n","other_p":"other_sector_p","other_a":"other_sector_a"}, inplace=True)
-frames = [forway_temp, land_source_temp, sector_temp]
-result = pd.concat(frames, axis=1, join="inner")
+# sector_temp.rename(columns={"other_n":"other_sector_n","other_p":"other_sector_p","other_a":"other_sector_a"}, inplace=True)
+# frames = [forway_temp, land_source_temp, sector_temp]
+# result = pd.concat(frames, axis=1, join="inner")
 
 ### forway and land source aggregated 
-# forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
-# frames = [total_temp, forway_land_source_temp]
-# result = pd.concat(frames, axis=1, join="inner")
-# result.to_csv(SAVE_PATH)
+forway_land_source_temp = aggregate(df, col=['forway', 'land_source'])
+forway_sector_temp = aggregate(df, col=['sector', 'forway'])
+land_source_sector_temp = aggregate(df, col=['sector', 'land_source'])
 
-# forway_sector_temp = aggregate(df, col=['sector', 'forway'])
-# land_source_sector_temp = aggregate(df, col=['sector', 'land_source'])
+frames = [total_temp, forway_temp, land_source_temp, sector_temp, forway_land_source_temp, forway_sector_temp, land_source_sector_temp]
+result = pd.concat(frames, axis=1, join="inner")
+result.to_csv(SAVE_PATH)

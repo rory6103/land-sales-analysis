@@ -53,8 +53,8 @@ SECTOR_MAP = {'A':'primary',
               'F':'tertiary', 'G':'tertiary', 'H':'tertiary', 'I':'tertiary', 'J':'tertiary', 'L':'tertiary', 'M':'tertiary', 'N':'tertiary', 'O':'tertiary', 'P':'tertiary', 'Q':'tertiary', 'R':'tertiary', 
               'K':'realestate', 
               'S':'government', 'T':'government', 
-              'Z':'other',
-              '?':'other'}
+              'Z':'other_sector',
+              '?':'other_sector'}
 
 
 df = pd.read_csv("./land_city.csv")
@@ -62,9 +62,9 @@ df.fillna(0, inplace=True)
 labels = list(df['company_industry'])
 sub_industry = [l if l in CATEGORY_MAP else INDUSTRY_MAP[l] for l in labels]
 industry = [CATEGORY_MAP[s] for s in sub_industry]
-# df.insert(8, 'industry', industry)
+df.insert(8, 'industry', industry)
 sector = [SECTOR_MAP[i] for i in industry]
-# df.insert(9, 'sector', sector)
+df.insert(9, 'sector', sector)
 count = Counter(sector)
 print(count)
 sectors1 = map(lambda x: SECTOR_MAP[CATEGORY_MAP[x]], labels)
