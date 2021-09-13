@@ -7,9 +7,9 @@ import pandas as pd
 LABEL_PATH = './Data_City_1994_2017.dta'
 DATA_PATH = '../land.csv'
 CITYID_PATH = './city.csv'
-SAVE_PATH = 'land_city.csv'
-DESIRED_VARS = ['forway', 'deal_price_millon', 'land_source', 'approval_unit', 'contract_date', 
-                'company_industry', 'landlevel', 'region', 'area_ha', 'landuse']
+SAVE_PATH = 'land_city_new.csv'
+DESIRED_VARS = ['X_id', 'forway', 'deal_price_millon', 'land_source', 'approval_unit', 
+                'contract_date', 'company_industry', 'landlevel', 'region', 'area_ha', 'landuse']
 LAND_SOURCE_MAP = {'现有建设用地':'existing', '新增建设用地(来自存量库)':'stock', '新增建设用地':'new'}
 FORWAY_MAP = defaultdict(lambda:'other_forway', key='other_forway')
 FORWAY_MAP.update({'挂牌出让':'guapai', '拍卖出让':'paimai', '招标出让':'zhaobiao', '招拍挂出让':'other_forway', '划拨':'transfer', '协议出让':'agreement', '租赁':'lease'})
